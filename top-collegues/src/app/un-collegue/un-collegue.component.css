@@ -1,0 +1,9 @@
+.card {
+    width: 15rem;
+    margin-left: 1rem;
+}
+
+.card-block {
+    padding: 1em;
+    text-align: center;
+}

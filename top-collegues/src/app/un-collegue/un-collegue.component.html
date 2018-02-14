@@ -1,0 +1,14 @@
+<div class="card">
+  <img class="card-img-top" src={{collegue.urlImage}} />
+  <div class="card-block">
+    <h4 class="card-title">{{collegue.pseudo}}</h4>
+    <div class="card-text"><strong>{{collegue.score}}</strong></div>
+    <br />
+    <div class="control-group">
+      <div class="controls">
+        <button (click)="jaime()" id="aime" name="aime" class="btn btn-outline-primary">J'aime</button>
+        <button (click)="jedeteste()" id="deteste" name="deteste" class="btn btn-outline-danger">Je déteste</button>
+      </div>
+    </div>
+  </div>
+</div>
