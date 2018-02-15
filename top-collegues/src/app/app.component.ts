@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Collegue } from './shared/domain/collegue';
+import { CollegueService } from './shared/service/collegue.service';
 
 @Component({
   selector: 'app-root',
@@ -8,26 +9,62 @@ import { Collegue } from './shared/domain/collegue';
 })
 export class AppComponent {
 
-  public collegues:Collegue[];
-  public affiche:boolean = false;
-  public savePseudo:string;
+  private collegues:Collegue[];
+  private savePseudo:string;
+  private affiche:boolean = false;
+  private warning:boolean = false;
+  private erreur:boolean = false;
+
+  constructor(private cService:CollegueService){}
 
   ngOnInit() {
-    this.collegues = [
-      new Collegue("Aline", 'assets/images/aline.jpg', 100),
-      new Collegue("Hugues", 'assets/images/hugues.jpg', 100),
-      new Collegue("Paul", 'assets/images/paul.jpg', 20),
-      new Collegue("Justine", 'assets/images/justine.jpg', 20),
-      new Collegue("Jaques", 'assets/images/jaques.jpg', 10)
-    ]
+    this.list();
+  }
+
+  list() {
+    this.cService.listerCollegues()
+      .then(collegues => {
+        this.collegues = collegues;
+        this.sortList();
+      });
+  }
+
+  sortList(){
+    this.collegues = this.collegues
+    .sort((col1, col2) => col2.score - col1.score);
+  }
+
+  supp(pseudo:string) {
+    this.cService.supprimer(pseudo)
+    .then(collegue => {
+      this.collegues = this.collegues.filter(col => col.pseudo != collegue.pseudo);
+      this.sortList();
+    });
   }
 
   add(pseudo:HTMLInputElement, imageUrl: HTMLInputElement) {
-    this.collegues.push(new Collegue(pseudo.value, imageUrl.value, 0));
-    this.savePseudo = pseudo.value;
-    pseudo.value = "";
-    imageUrl.value = "";
-    this.affiche = true;
-    return false;
+    if(pseudo.value != "" && imageUrl.value != "") {
+      this.savePseudo = pseudo.value;
+      this.cService.sauvegarder(new Collegue(pseudo.value, imageUrl.value, 0))
+      .then(collegue => {
+          this.collegues.push(collegue);
+          pseudo.value = "";
+          imageUrl.value = "";
+          this.affiche = true;
+          this.erreur = false;
+          this.warning = false;
+          this.sortList();
+          //this.list();
+      })
+      .catch(error => {
+        this.erreur = true;
+        this.warning = false;
+        this.affiche = false;
+      });
+    } else {
+      this.erreur = false;
+      this.warning = true;
+      this.affiche = false;
+    }
   }
 }
