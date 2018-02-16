@@ -1,0 +1,16 @@
+<app-formulaire (ajout)="addList($event)"></app-formulaire>
+<app-navigation></app-navigation>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Pseudo</th>
+      <th scope="col">Score</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+      <tbody app-un-collegue 
+        *ngFor="let collegue of collegues" 
+        [collegue]=collegue [tableTemplate]="true"
+        (supp)="supp($event)" (change)="sortList($event)"></tbody>
+</table>

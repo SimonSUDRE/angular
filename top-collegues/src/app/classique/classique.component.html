@@ -1,0 +1,8 @@
+<app-formulaire (ajout)="addList($event)"></app-formulaire>
+<app-navigation></app-navigation>
+<div id="listCollegue" class="card-deck">
+  <div app-un-collegue 
+  *ngFor="let collegue of collegues" 
+  [cardTemplate]="true" [collegue]=collegue 
+  (supp)="supp($event)" (change)="sortList($event)"></div>&nbsp;
+</div>

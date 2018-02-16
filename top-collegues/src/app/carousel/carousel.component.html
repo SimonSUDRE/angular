@@ -1,0 +1,10 @@
+<app-formulaire (ajout)="addList($event)"></app-formulaire>
+<app-navigation></app-navigation>
+<ngb-carousel class="mb-5">
+  <ng-template ngbSlide *ngFor="let collegue of this.collegues">
+    <div app-un-collegue
+      [carouselTemplate]="true" [collegue]=collegue 
+      (supp)="supp($event)" (change)="sortList($event)">
+    </div>
+  </ng-template>
+</ngb-carousel>

@@ -1,0 +1,22 @@
+<div class="jumbotron">
+    <!-- Form Name -->
+    <legend><h1>Top Collègues</h1></legend> 
+    <h6>Les meilleurs collègues du moment</h6>
+</div>
+<div class="border">
+  <a (click)="retour()" href>Retour à la vues liste de collègues</a>
+</div>
+<div class="card">
+  <img class="card-img-top" src={{collegue.imageUrl}} />
+  <div class="card-block text-center">
+    <h4 class="card-title">{{collegue.pseudo}}</h4>
+    <div class="card-text lead"><strong>{{collegue.score}}</strong></div>
+    <br />
+    <div>
+        <div class="row justify-content-md-center">
+          <button (click)="jaime()" id="aime" name="aime" class="btn btn-outline-primary">J'aime</button>
+          <button (click)="jedeteste()" id="deteste" name="deteste" class="btn btn-outline-danger">Je déteste</button>
+        </div>
+      </div> 
+  </div>
+</div>
