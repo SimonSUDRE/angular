@@ -4,13 +4,13 @@
     <h6>Les meilleurs collègues du moment</h6>
 </div>
 <div class="border">
-  <a (click)="retour()" href>Retour à la vues liste de collègues</a>
+  <a routerLink="/classique">< Retour à la vues liste de collègues</a>
 </div>
 <div class="card">
   <img class="card-img-top" src={{collegue.imageUrl}} />
   <div class="card-block text-center">
-    <h4 class="card-title">{{collegue.pseudo}}</h4>
-    <div class="card-text lead"><strong>{{collegue.score}}</strong></div>
+    <h4 class="card-title">{{collegue.pseudo | uppercase}}</h4>
+    <div class="card-text lead"><strong [innerHTML]="collegue.score | score"></strong></div>
     <br />
     <div>
         <div class="row justify-content-md-center">

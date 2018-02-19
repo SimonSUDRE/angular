@@ -3,8 +3,8 @@
     <img class="card-img-top" src={{collegue.imageUrl}} />
   </a>
   <div class="card-block text-center">
-    <h4 class="card-title">{{collegue.pseudo}}</h4>
-    <div class="card-text lead"><strong>{{collegue.score}}</strong></div>
+    <h4 class="card-title">{{collegue.pseudo | uppercase}}</h4>
+    <div class="card-text lead"><strong [innerHTML]="collegue.score | score"></strong></div>
     <br />
     <div>
         <div class="row justify-content-md-center">
@@ -24,8 +24,8 @@
       <img class="col-4" src={{collegue.imageUrl}} />
     </a>
   </td>
-  <td><h4>{{collegue.pseudo}}</h4></td>
-  <td><div class="card-text lead"><strong>{{collegue.score}}</strong></div></td>
+  <td><h4>{{collegue.pseudo | uppercase}}</h4></td>
+  <td><div class="card-text lead"><strong [innerHTML]="collegue.score | score"></strong></div></td>
   <td>
     <div>
       <div class="row justify-content-md-center">
@@ -45,8 +45,8 @@
   </a>
   <div class="carousel-caption">
     <div class="alert-dark">
-      <h4>{{collegue.pseudo}}</h4>
-      <div class="lead"><strong>{{collegue.score}}</strong></div>
+      <h4>{{collegue.pseudo | uppercase}}</h4>
+      <div class="lead"><strong [innerHTML]="collegue.score | score"></strong></div>
     </div>
     <br>
     <div class="row justify-content-md-center">

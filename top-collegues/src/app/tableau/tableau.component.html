@@ -1,5 +1,9 @@
 <app-formulaire (ajout)="addList($event)"></app-formulaire>
-<app-navigation></app-navigation>
+<app-navigation 
+  (limite)="size = $event" 
+  (changeP)="changePseudo = $event" 
+  [tailleMax]="sizeMax">
+</app-navigation>
 <table class="table">
   <thead>
     <tr>
@@ -10,7 +14,7 @@
     </tr>
   </thead>
       <tbody app-un-collegue 
-        *ngFor="let collegue of collegues" 
+        *ngFor="let collegue of collegues | filterByPseudo:changePseudo | slice:0:this.size" 
         [collegue]=collegue [tableTemplate]="true"
         (supp)="supp($event)" (change)="sortList($event)"></tbody>
 </table>

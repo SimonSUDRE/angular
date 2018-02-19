@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter, TemplateRef, ContentChi
 import { Collegue } from '../shared/domain/collegue';
 import { CollegueService } from '../shared/service/collegue.service';
 
-
 @Component({
   selector: '[app-un-collegue]',
   templateUrl: './un-collegue.component.html',

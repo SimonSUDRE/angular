@@ -11,9 +11,10 @@ import { Collegue } from '../shared/domain/collegue';
 export class PageDetailComponent implements OnInit {
 
   private pseudo:string;
-  collegue:Collegue;
+  private collegue:Collegue;
 
   constructor(private route:ActivatedRoute, private router:Router, private cService:CollegueService) {
+    this.collegue = new Collegue("", "", 0);
     route.params.subscribe(params => { this.pseudo = params['pseudo']; });
   }
 
@@ -26,10 +27,6 @@ export class PageDetailComponent implements OnInit {
 
   ngOnInit() {
     this.getCollegue();
-  }
-
-  retour() {
-    this.router.navigate(['/classique']);
   }
 
   @Output() supp:EventEmitter<string> = new EventEmitter();

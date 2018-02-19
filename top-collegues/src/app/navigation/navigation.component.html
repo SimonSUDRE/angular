@@ -11,3 +11,19 @@
     </li>
   </ul>
 </nav>
+<div class="col-sm my-1">
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <div class="input-group-text">Limite</div>
+    </div>
+    <input #lim id="limite" name="limite" min="0" (keyup)="setLimite(lim)" type="number" class="form-control">
+  </div>
+</div>
+<div class="col-sm my-1">
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <div class="input-group-text">Filtre par pseudo</div>
+    </div>
+    <input #cPseudo id="changePseudo" name="changePseudo" (keyup)="searchPseudo(cPseudo)" type="text" class="form-control">
+  </div>
+</div>

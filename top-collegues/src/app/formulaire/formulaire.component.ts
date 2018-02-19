@@ -19,7 +19,7 @@ export class FormulaireComponent implements OnInit {
 
   ngOnInit() {}
 
-  add(pseudo:HTMLInputElement, imageUrl: HTMLInputElement) {
+  add(pseudo:HTMLInputElement, imageUrl:HTMLInputElement) {
     if(pseudo.value != "" && imageUrl.value != "") {
       this.savePseudo = pseudo.value;
       this.cService.sauvegarder(new Collegue(pseudo.value, imageUrl.value, 0))

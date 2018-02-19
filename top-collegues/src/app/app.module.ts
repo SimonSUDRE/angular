@@ -12,6 +12,8 @@ import { TableauComponent } from './tableau/tableau.component';
 import { PageDetailComponent } from './page-detail/page-detail.component';
 import { FormulaireComponent } from './formulaire/formulaire.component';
 import { NavigationComponent } from './navigation/navigation.component';
+import { ScorePipe } from './shared/pipe/score.pipe';
+import { FilterByPseudoPipe } from './shared/pipe/filter-by-pseudo.pipe';
 
 const appRoutes: Routes = [
   { path: 'classique', component: ClassiqueComponent },
@@ -30,7 +32,9 @@ const appRoutes: Routes = [
     TableauComponent,
     PageDetailComponent,
     FormulaireComponent,
-    NavigationComponent
+    NavigationComponent,
+    ScorePipe,
+    FilterByPseudoPipe
   ],
   imports: [
     BrowserModule,

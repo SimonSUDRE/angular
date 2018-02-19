@@ -5,6 +5,9 @@ import { CollegueService } from '../shared/service/collegue.service';
 export abstract class ListCollegueComponent implements OnInit {
 
   private collegues:Collegue[];
+  private size:number;
+  private sizeMax:number;
+  private changePseudo:string = "";
 
   constructor(public cService:CollegueService) { 
     this.cService = cService;
@@ -19,6 +22,8 @@ export abstract class ListCollegueComponent implements OnInit {
       .then(collegues => {
         this.collegues = collegues;
         this.sortList();
+        this.sizeMax = this.collegues.length;
+        this.size = this.sizeMax;
       });
   }
 

@@ -1,7 +1,11 @@
 <app-formulaire (ajout)="addList($event)"></app-formulaire>
-<app-navigation></app-navigation>
+<app-navigation 
+  (limite)="size = $event" 
+  (changeP)="changePseudo = $event" 
+  [tailleMax]="sizeMax">
+</app-navigation>
 <ngb-carousel class="mb-5">
-  <ng-template ngbSlide *ngFor="let collegue of this.collegues">
+  <ng-template ngbSlide *ngFor="let collegue of collegues | filterByPseudo:changePseudo | slice:0:size">
     <div app-un-collegue
       [carouselTemplate]="true" [collegue]=collegue 
       (supp)="supp($event)" (change)="sortList($event)">
