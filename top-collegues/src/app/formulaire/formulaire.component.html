@@ -27,7 +27,11 @@
       <div class="control-group">
         <label class="control-label" for="singlebutton"></label>
         <div class="controls">
-          <button type="button" (click)="add(pseudo, imageUrl)" id="singlebutton" name="singlebutton" class="btn btn-primary">Ajouter un nouveau Collegue</button>
+          <button type="button" 
+            (click)="add(pseudo, imageUrl)" 
+            id="singlebutton" name="singlebutton" 
+            class="btn btn-primary"
+            [disabled]="offLine">Ajouter un nouveau Collegue</button>
         </div>
       </div>
     </fieldset>

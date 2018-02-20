@@ -21,23 +21,34 @@ export class UnCollegueComponent implements OnInit {
   @Input("carouselTemplate")
   private carouselTemplate:boolean;
 
+  private offLine:boolean = false;
+
   @Input() collegue:Collegue;
   @Output() supp:EventEmitter<string> = new EventEmitter();
   @Output() change:EventEmitter<string> = new EventEmitter();
 
   constructor(private cService:CollegueService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.cService.collegueLigneObs
+    .subscribe(value => this.offLine = value);
+  }
 
   jaime() {
     this.cService.aimerUnCollegue(this.collegue)
-    .then(collegue => this.collegue.score = collegue.score);
+    .subscribe(
+      collegue => this.collegue.score = collegue.score,
+      error => console.log(error)    
+    );
     this.change.emit("aime");
   }
 
   jedeteste() {
     this.cService.detesterUnCollegue(this.collegue)
-    .then(collegue => this.collegue.score = collegue.score);
+    .subscribe(
+      collegue => this.collegue.score = collegue.score,
+      error => console.log(error)
+    );
     this.change.emit("deteste");
   }
 

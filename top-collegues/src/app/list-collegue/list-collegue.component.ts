@@ -4,13 +4,14 @@ import { CollegueService } from '../shared/service/collegue.service';
 
 export abstract class ListCollegueComponent implements OnInit {
 
-  private collegues:Collegue[];
+  private collegues:Collegue[] = [];
   private size:number;
   private sizeMax:number;
   private changePseudo:string = "";
 
   constructor(public cService:CollegueService) { 
     this.cService = cService;
+    this.cService.testerService();
   }
 
   ngOnInit() {
@@ -19,12 +20,15 @@ export abstract class ListCollegueComponent implements OnInit {
 
   list() {
     this.cService.listerCollegues()
-      .then(collegues => {
-        this.collegues = collegues;
-        this.sortList();
-        this.sizeMax = this.collegues.length;
-        this.size = this.sizeMax;
-      });
+      .subscribe(
+        collegue => {
+          this.collegues.push(collegue);
+          this.sortList();
+          this.sizeMax = this.collegues.length;
+          this.size = this.sizeMax;
+        },
+        error => console.log(error),
+    );
   }
 
   sortList() {
@@ -32,16 +36,13 @@ export abstract class ListCollegueComponent implements OnInit {
     .sort((col1, col2) => col2.score - col1.score);
   }
 
-  addList(collegue:Collegue){
-    this.collegues.push(collegue);
-    this.sortList()
-  }
-
   supp(pseudo:string) {
     this.cService.supprimer(pseudo)
-    .then(collegue => {
-      this.collegues = this.collegues.filter(col => col.pseudo != collegue.pseudo);
-      this.sortList();
-    });
+    .subscribe(
+        collegue => {
+        this.collegues = this.collegues.filter(col => col.pseudo != collegue.pseudo);
+      },
+      error => console.log(error)
+    );
   }
 }

@@ -1,54 +1,110 @@
 import { Injectable } from '@angular/core';
 import { Collegue } from '../domain/collegue';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, Subject, ReplaySubject } from 'rxjs';
+import 'rxjs/add/operator/map';
+import { CollegueActionScore } from '../domain/collegueActionScore';
 
 @Injectable()
 export class CollegueService {
 
+  private collegueSaveSub:Subject<Collegue> = new Subject();
+  private collegueLigneSub:Subject<boolean> = new Subject();
+  private collegueLDikeSub:ReplaySubject<CollegueActionScore> = new ReplaySubject();
+
   constructor(private http:HttpClient) {}
 
-  listerCollegues():Promise<Collegue[]> {
-    return this.http.get<Collegue[]>(
-      'http://localhost:8080/collegues'
-    ).toPromise()
+  get collegueSaveObs():Observable<Collegue> {
+    return this.collegueSaveSub.asObservable();
   }
 
-  sauvegarder(newCollegue:Collegue):Promise<Collegue> {
+  get collegueLDikeObs():Observable<CollegueActionScore> {
+    return this.collegueLDikeSub.asObservable();
+  }
+
+  get collegueLigneObs():Observable<boolean> {
+    return this.collegueLigneSub.asObservable();
+  }
+
+  listerCollegues():Observable<Collegue> {
+    this.http.get<Collegue[]>(
+        'http://localhost:8080/collegues'
+      ).subscribe(collegues => 
+        collegues.forEach(collegue => {
+          this.collegueSaveSub.next(collegue);
+        })
+      );
+    return this.collegueSaveObs;
+  }
+
+  sauvegarder(newCollegue:Collegue):Observable<Collegue> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.post<Collegue>(
-      'http://localhost:8080/collegues', 
-      newCollegue, 
-      httpOptions
-    ).toPromise();
+    this.http.post<Collegue>(
+        'http://localhost:8080/collegues', 
+        newCollegue, 
+        httpOptions
+      ).subscribe(collegue =>
+        this.collegueSaveSub.next(collegue)
+      );
+    return this.collegueSaveObs;
   }
 
-  supprimer(pseudoCollegue:string):Promise<Collegue> {
+  supprimer(pseudoCollegue:string):Observable<Collegue> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.delete<Collegue>(
-      'http://localhost:8080/collegues/' + pseudoCollegue, 
-      httpOptions
-    ).toPromise();
+    this.http.delete<Collegue>(
+        'http://localhost:8080/collegues/' + pseudoCollegue, 
+        httpOptions
+      ).subscribe(collegue =>
+        this.collegueSaveSub.next(collegue)
+      );
+    return this.collegueSaveObs;
   }
 
-  aimerUnCollegue(unCollegue:Collegue):Promise<Collegue> {
+  addCollegue(pseudoCollegue:string):Observable<Collegue> {
+    this.http.get<Collegue>(
+        'http://localhost:8080/collegues/' + pseudoCollegue
+      ).subscribe(collegue =>
+        this.collegueSaveSub.next(collegue)
+      );
+    return this.collegueSaveObs;
+  }
+
+  aimerUnCollegue(unCollegue:Collegue):Observable<Collegue> {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
     return this.http.patch<Collegue>(
-      'http://localhost:8080/collegues/' + unCollegue.pseudo, 
-      '{ "action": "aimer" }',
-      httpOptions
-    ).toPromise();
+        'http://localhost:8080/collegues/' + unCollegue.pseudo, 
+        '{ "action": "aimer" }',
+        httpOptions
+      ).map(collegue => {
+        this.collegueLDikeSub.next(new CollegueActionScore(collegue, "aimer"));
+        return collegue;
+      });
   }
 
-  detesterUnCollegue(unCollegue:Collegue):Promise<Collegue> {
+  detesterUnCollegue(unCollegue:Collegue):Observable<Collegue> {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
     return this.http.patch<Collegue>(
-      'http://localhost:8080/collegues/' + unCollegue.pseudo, 
-      '{ "action": "detester" }',
-      httpOptions
-    ).toPromise();
+        'http://localhost:8080/collegues/' + unCollegue.pseudo, 
+        '{ "action": "detester" }',
+        httpOptions
+      ).map(collegue => {
+        this.collegueLDikeSub.next(new CollegueActionScore(collegue, "detester"));
+        return collegue;
+      });
+  }
+
+  testerService(){
+    Observable.interval(5000)
+    .subscribe(() => 
+      this.http.get<Collegue[]>('http://localhost:8080/collegues')
+      .subscribe(
+        collegues => this.collegueLigneSub.next(false),
+        error => this.collegueLigneSub.next(true)
+      )
+    );
   }
 }

@@ -14,6 +14,8 @@ import { FormulaireComponent } from './formulaire/formulaire.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { ScorePipe } from './shared/pipe/score.pipe';
 import { FilterByPseudoPipe } from './shared/pipe/filter-by-pseudo.pipe';
+import { DernierAvisComponent } from './dernier-avis/dernier-avis.component';
+import { LigneComponent } from './ligne/ligne.component';
 
 const appRoutes: Routes = [
   { path: 'classique', component: ClassiqueComponent },
@@ -34,7 +36,9 @@ const appRoutes: Routes = [
     FormulaireComponent,
     NavigationComponent,
     ScorePipe,
-    FilterByPseudoPipe
+    FilterByPseudoPipe,
+    DernierAvisComponent,
+    LigneComponent
   ],
   imports: [
     BrowserModule,

@@ -1,12 +1,14 @@
-<app-formulaire (ajout)="addList($event)"></app-formulaire>
+<app-formulaire></app-formulaire>
 <app-navigation 
   (limite)="size = $event" 
   (changeP)="changePseudo = $event" 
   [tailleMax]="sizeMax">
 </app-navigation>
+<app-dernier-avis></app-dernier-avis>
 <div id="listCollegue" class="card-deck">
   <div app-un-collegue 
   *ngFor="let collegue of collegues | filterByPseudo:changePseudo | slice:0:size" 
   [cardTemplate]="true" [collegue]=collegue 
   (supp)="supp($event)" (change)="sortList($event)"></div>&nbsp;
 </div>
+<app-dernier-avis></app-dernier-avis>

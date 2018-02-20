@@ -1,9 +1,10 @@
-<app-formulaire (ajout)="addList($event)"></app-formulaire>
+<app-formulaire></app-formulaire>
 <app-navigation 
   (limite)="size = $event" 
   (changeP)="changePseudo = $event" 
   [tailleMax]="sizeMax">
 </app-navigation>
+<app-dernier-avis></app-dernier-avis>
 <table class="table">
   <thead>
     <tr>
@@ -18,3 +19,4 @@
         [collegue]=collegue [tableTemplate]="true"
         (supp)="supp($event)" (change)="sortList($event)"></tbody>
 </table>
+<app-dernier-avis></app-dernier-avis>

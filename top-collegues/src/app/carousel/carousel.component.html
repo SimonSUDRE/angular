@@ -1,9 +1,10 @@
-<app-formulaire (ajout)="addList($event)"></app-formulaire>
+<app-formulaire></app-formulaire>
 <app-navigation 
   (limite)="size = $event" 
   (changeP)="changePseudo = $event" 
   [tailleMax]="sizeMax">
 </app-navigation>
+<app-dernier-avis></app-dernier-avis>
 <ngb-carousel class="mb-5">
   <ng-template ngbSlide *ngFor="let collegue of collegues | filterByPseudo:changePseudo | slice:0:size">
     <div app-un-collegue
@@ -12,3 +13,4 @@
     </div>
   </ng-template>
 </ngb-carousel>
+<app-dernier-avis></app-dernier-avis>

@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CollegueService } from '../shared/service/collegue.service';
 import { Collegue } from '../shared/domain/collegue';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-page-detail',
@@ -13,34 +14,42 @@ export class PageDetailComponent implements OnInit {
   private pseudo:string;
   private collegue:Collegue;
 
-  constructor(private route:ActivatedRoute, private router:Router, private cService:CollegueService) {
+  constructor(private route:ActivatedRoute, private router:Router, private location:Location, private cService:CollegueService) {
     this.collegue = new Collegue("", "", 0);
     route.params.subscribe(params => { this.pseudo = params['pseudo']; });
   }
 
   getCollegue() {
-    this.cService.listerCollegues()
-      .then(collegues => {
-        this.collegue = collegues.filter(collegue => collegue.pseudo == this.pseudo)[0];
-      });
+    this.cService.addCollegue(this.pseudo)
+      .subscribe(
+        collegue => this.collegue = collegue,
+        error => console.log(error)
+      );
   }
 
   ngOnInit() {
     this.getCollegue();
   }
 
+  historyBack(){
+    this.location.back();
+  }
+
   @Output() supp:EventEmitter<string> = new EventEmitter();
-  @Output() change:EventEmitter<string> = new EventEmitter();
 
   jaime() {
     this.cService.aimerUnCollegue(this.collegue)
-    .then(collegue => this.collegue.score = collegue.score);
-    this.change.emit("aime");
+    .subscribe(
+      collegue => this.collegue.score = collegue.score,
+      error => console.log(error)
+    );
   }
 
   jedeteste() {
     this.cService.detesterUnCollegue(this.collegue)
-    .then(collegue => this.collegue.score = collegue.score);
-    this.change.emit("deteste");
+    .subscribe(
+      collegue => this.collegue.score = collegue.score,
+      error => console.log(error)
+    );
   }
 }
