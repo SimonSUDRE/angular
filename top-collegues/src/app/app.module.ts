@@ -16,6 +16,11 @@ import { ScorePipe } from './shared/pipe/score.pipe';
 import { FilterByPseudoPipe } from './shared/pipe/filter-by-pseudo.pipe';
 import { DernierAvisComponent } from './dernier-avis/dernier-avis.component';
 import { LigneComponent } from './ligne/ligne.component';
+import { HistoriqueComponent } from './historique/historique.component';
+import { CommentPipe } from './shared/pipe/comment.pipe';
+import { AvisCollegueComponent } from './avis-collegue/avis-collegue.component';
+import { AvisSiteComponent } from './avis-site/avis-site.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [
   { path: 'classique', component: ClassiqueComponent },
@@ -38,11 +43,17 @@ const appRoutes: Routes = [
     ScorePipe,
     FilterByPseudoPipe,
     DernierAvisComponent,
-    LigneComponent
+    LigneComponent,
+    HistoriqueComponent,
+    CommentPipe,
+    AvisCollegueComponent,
+    AvisSiteComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],

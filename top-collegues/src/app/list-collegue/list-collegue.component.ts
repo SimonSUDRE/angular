@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Collegue } from '../shared/domain/collegue';
 import { CollegueService } from '../shared/service/collegue.service';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap'
+import { Commentaire } from '../shared/domain/comment';
 
 export abstract class ListCollegueComponent implements OnInit {
 
@@ -8,8 +10,10 @@ export abstract class ListCollegueComponent implements OnInit {
   private size:number;
   private sizeMax:number;
   private changePseudo:string = "";
+  private closeResult: string;
+  private col:Collegue;
 
-  constructor(public cService:CollegueService) { 
+  constructor(public cService:CollegueService, public modalService:NgbModal) { 
     this.cService = cService;
     this.cService.testerService();
   }
@@ -36,13 +40,21 @@ export abstract class ListCollegueComponent implements OnInit {
     .sort((col1, col2) => col2.score - col1.score);
   }
 
-  supp(pseudo:string) {
-    this.cService.supprimer(pseudo)
-    .subscribe(
-        collegue => {
-        this.collegues = this.collegues.filter(col => col.pseudo != collegue.pseudo);
-      },
-      error => console.log(error)
-    );
+  open(colModal) {
+    this.modalService.open(colModal).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
   }
 }

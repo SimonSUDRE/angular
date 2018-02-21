@@ -4,19 +4,28 @@
   (changeP)="changePseudo = $event" 
   [tailleMax]="sizeMax">
 </app-navigation>
-<app-dernier-avis></app-dernier-avis>
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col"></th>
-      <th scope="col">Pseudo</th>
-      <th scope="col">Score</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-      <tbody app-un-collegue 
-        *ngFor="let collegue of collegues | filterByPseudo:changePseudo | slice:0:this.size" 
-        [collegue]=collegue [tableTemplate]="true"
-        (supp)="supp($event)" (change)="sortList($event)"></tbody>
-</table>
-<app-dernier-avis></app-dernier-avis>
+<div class="col-3 float-sm-right">
+  <app-historique></app-historique>
+</div>
+<div class="col-9">
+  <app-dernier-avis></app-dernier-avis>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Pseudo</th>
+        <th scope="col">Score</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+        <tbody app-un-collegue 
+          *ngFor="let collegue of collegues | filterByPseudo:changePseudo | slice:0:this.size" 
+          [collegue]=collegue [tableTemplate]="true"
+          (supp)="supp($event)" (change)="sortList($event)" (modal)="col = $event; open(colModal);"></tbody>
+  </table>
+  <app-dernier-avis></app-dernier-avis>
+</div>
+
+<ng-template #colModal let-c="close" let-d="dismiss">
+  <app-avis-collegue [col]="col" (close)="c('Close click')" (fermer)="d('Cross click')"></app-avis-collegue>
+</ng-template>

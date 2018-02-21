@@ -36,6 +36,15 @@
       </div>
     </fieldset>
   </form>
+  <br>
+  <button class="btn btn-link" role="link" (click)="open(siteModal)">
+    Donnez votre avis sur l'application Top Collegues
+  </button>
+
+  <ng-template #siteModal let-c="close" let-d="dismiss">
+    <app-avis-site (close)="c('Close click')" (fermer)="d('Cross click')"></app-avis-site>
+  </ng-template>
+
 </div>
 <div *ngIf="warning" class="alert alert-warning" role="alert">
   Formulaire imcomplet !!

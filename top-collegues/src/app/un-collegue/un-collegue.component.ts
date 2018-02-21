@@ -26,6 +26,7 @@ export class UnCollegueComponent implements OnInit {
   @Input() collegue:Collegue;
   @Output() supp:EventEmitter<string> = new EventEmitter();
   @Output() change:EventEmitter<string> = new EventEmitter();
+  @Output() modal:EventEmitter<Collegue> = new EventEmitter();
 
   constructor(private cService:CollegueService) {}
 
@@ -52,7 +53,7 @@ export class UnCollegueComponent implements OnInit {
     this.change.emit("deteste");
   }
 
-  supprimer(){
-    this.supp.emit(this.collegue.pseudo);
+  passCollegue(){
+    this.modal.emit(this.collegue);
   }
 }

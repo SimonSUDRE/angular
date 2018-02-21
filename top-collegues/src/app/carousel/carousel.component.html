@@ -4,13 +4,22 @@
   (changeP)="changePseudo = $event" 
   [tailleMax]="sizeMax">
 </app-navigation>
-<app-dernier-avis></app-dernier-avis>
-<ngb-carousel class="mb-5">
-  <ng-template ngbSlide *ngFor="let collegue of collegues | filterByPseudo:changePseudo | slice:0:size">
-    <div app-un-collegue
-      [carouselTemplate]="true" [collegue]=collegue 
-      (supp)="supp($event)" (change)="sortList($event)">
-    </div>
-  </ng-template>
-</ngb-carousel>
-<app-dernier-avis></app-dernier-avis>
+<div class="col-3 float-sm-right">
+  <app-historique></app-historique>
+</div>
+<div class="col-9">
+  <app-dernier-avis></app-dernier-avis>
+  <ngb-carousel class="mb-5">
+    <ng-template ngbSlide *ngFor="let collegue of collegues | filterByPseudo:changePseudo | slice:0:size">
+      <div app-un-collegue
+        [carouselTemplate]="true" [collegue]=collegue 
+        (supp)="supp($event)" (change)="sortList($event)" (modal)="col = $event; open(colModal);">
+      </div>
+    </ng-template>
+  </ngb-carousel>
+  <app-dernier-avis></app-dernier-avis>
+</div>
+
+<ng-template #colModal let-c="close" let-d="dismiss">
+  <app-avis-collegue [col]="col" (close)="c('Close click')" (fermer)="d('Cross click')"></app-avis-collegue>
+</ng-template>

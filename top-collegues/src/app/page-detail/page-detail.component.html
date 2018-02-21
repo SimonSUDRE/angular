@@ -13,11 +13,12 @@
     <h4 class="card-title">{{collegue.pseudo | uppercase}}</h4>
     <div class="card-text lead"><strong [innerHTML]="collegue.score | score"></strong></div>
     <br />
-    <div>
-        <div class="row justify-content-md-center">
-          <button (click)="jaime()" id="aime" name="aime" class="btn btn-outline-primary">J'aime</button>
-          <button (click)="jedeteste()" id="deteste" name="deteste" class="btn btn-outline-danger">Je déteste</button>
-        </div>
-      </div> 
+    <div class="row justify-content-md-center">
+      <button (click)="jaime()" id="aime" name="aime" class="btn btn-outline-primary">J'aime</button>
+      <button (click)="jedeteste()" id="deteste" name="deteste" class="btn btn-outline-danger">Je déteste</button>
+    </div>
+    <div *ngFor="let com of collegue.commentaires">
+      <!-- card list -->
+    </div>
   </div>
 </div>

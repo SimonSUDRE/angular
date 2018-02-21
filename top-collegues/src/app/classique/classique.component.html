@@ -4,11 +4,21 @@
   (changeP)="changePseudo = $event" 
   [tailleMax]="sizeMax">
 </app-navigation>
-<app-dernier-avis></app-dernier-avis>
-<div id="listCollegue" class="card-deck">
-  <div app-un-collegue 
-  *ngFor="let collegue of collegues | filterByPseudo:changePseudo | slice:0:size" 
-  [cardTemplate]="true" [collegue]=collegue 
-  (supp)="supp($event)" (change)="sortList($event)"></div>&nbsp;
+<div class="col-3 float-sm-right">
+  <app-historique></app-historique>
 </div>
-<app-dernier-avis></app-dernier-avis>
+<div class="col-9">
+  <app-dernier-avis></app-dernier-avis>
+  <div id="listCollegue" class="card-deck">
+    <div app-un-collegue 
+    *ngFor="let collegue of collegues | filterByPseudo:changePseudo | slice:0:size" 
+    [cardTemplate]="true" [collegue]=collegue 
+    (change)="sortList($event)" (modal)="col = $event; open(colModal);">
+    </div>&nbsp;
+  </div>
+  <app-dernier-avis></app-dernier-avis>
+</div>
+
+<ng-template #colModal let-c="close" let-d="dismiss">
+  <app-avis-collegue [col]="col" (close)="c('Close click')" (fermer)="d('Cross click')"></app-avis-collegue>
+</ng-template>

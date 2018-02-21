@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, ReplaySubject } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { CollegueActionScore } from '../domain/collegueActionScore';
+import { Avis } from '../domain/avis';
 
 @Injectable()
 export class CollegueService {
@@ -11,6 +12,7 @@ export class CollegueService {
   private collegueSaveSub:Subject<Collegue> = new Subject();
   private collegueLigneSub:Subject<boolean> = new Subject();
   private collegueLDikeSub:ReplaySubject<CollegueActionScore> = new ReplaySubject();
+  private collegueAvisSub:Subject<Collegue> = new Subject();
 
   constructor(private http:HttpClient) {}
 
@@ -106,5 +108,27 @@ export class CollegueService {
         error => this.collegueLigneSub.next(true)
       )
     );
+  }
+
+  historiqueAvis(voteId:string):Observable<Avis[]> {
+    return this.http.get<Avis[]>(`http://localhost:8080/avis?since=${voteId}`);
+  }
+
+  supprimerAvis(voteId:number):Observable<Avis> {
+    return this.http.delete<Avis>(`http://localhost:8080/avis?since=${voteId}`)
+  }
+
+  commentaireUnCollegue(unCollegue:Collegue, com:string):Observable<Collegue> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    };
+    return this.http.patch<Collegue>(
+        'http://localhost:8080/collegues/' + unCollegue.pseudo, 
+        { "action": "avis", "comment": com },
+        httpOptions
+      ).map(collegue => {
+        this.collegueAvisSub.next(collegue);
+        return collegue;
+      });
   }
 }

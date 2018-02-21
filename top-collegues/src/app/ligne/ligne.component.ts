@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { setTimeout } from 'timers';
 import { CollegueService } from '../shared/service/collegue.service';
 
 @Component({

@@ -1,0 +1,24 @@
+  <div class="modal-header">
+    <h4 class="modal-title">Votre Avis</h4>
+    <button type="button" class="close" aria-label="Close" (click)="ferme()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="enregistrer()">
+  <div class="modal-body">
+    <h6>Que pensez-vous de {{col.pseudo}} ?</h6>
+      <textarea rows="6" cols="60"
+        [(ngModel)]="com.commentaire" 
+        minlength="10" maxlength="255"
+        [ngModelOptions]="{standalone: true}" 
+        #tx="ngModel"
+        required></textarea>
+      <i>veuillez saisir votre avis avec un minimum de 10 caractères et un maximum de 255 caractères</i>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="submit" class="btn btn-default" 
+        [disabled]="tx.invalid">Enregistrer</button>
+      <button (click)="closer()" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </form>
